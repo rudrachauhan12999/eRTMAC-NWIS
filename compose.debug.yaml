@@ -1,0 +1,6 @@
+services:
+  ertmacnwisnearbywellsintelligencesystem3:
+    image: ertmacnwisnearbywellsintelligencesystem3
+    build:
+      context: .
+      dockerfile: ./Dockerfile

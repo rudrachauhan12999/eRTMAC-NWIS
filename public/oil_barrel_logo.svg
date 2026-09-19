@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="140 230 690 560" width="100%" height="100%">
+  <defs>
+    <!-- Upright Barrel Gradients -->
+    <linearGradient id="lidFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3d434a"/>
+      <stop offset="50%" stop-color="#2a3036"/>
+      <stop offset="100%" stop-color="#181b1f"/>
+    </linearGradient>
+
+    <linearGradient id="barrelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#24282d"/>
+      <stop offset="18%" stop-color="#383f47"/>
+      <stop offset="42%" stop-color="#4e5864"/>
+      <stop offset="68%" stop-color="#32383f"/>
+      <stop offset="85%" stop-color="#23272b"/>
+      <stop offset="100%" stop-color="#141619"/>
+    </linearGradient>
+
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#30353b"/>
+      <stop offset="40%" stop-color="#55606d"/>
+      <stop offset="100%" stop-color="#181a1d"/>
+    </linearGradient>
+
+    <!-- Tilted Barrel Gradients -->
+    <linearGradient id="tiltedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#464e58"/>
+      <stop offset="35%" stop-color="#353b43"/>
+      <stop offset="70%" stop-color="#24282d"/>
+      <stop offset="100%" stop-color="#141719"/>
+    </linearGradient>
+
+    <!-- Spill Puddle Gradients -->
+    <linearGradient id="puddleFill" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#1b1f24"/>
+      <stop offset="60%" stop-color="#111417"/>
+      <stop offset="100%" stop-color="#080a0b"/>
+    </linearGradient>
+
+    <linearGradient id="puddleSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a5563" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#303741" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1b1f24" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <g id="scene-wrapper">
+    <!-- 1. SPILLED CRUDE OIL PUDDLE (GROUND LEVEL) -->
+    <g id="oil-spill">
+      <!-- Outer shadow pool -->
+      <path d="M 160 705 
+               C 155 660, 240 625, 330 620 
+               C 390 618, 440 635, 490 650 
+               C 540 665, 555 705, 515 738 
+               C 475 770, 395 780, 310 780 
+               C 215 780, 160 750, 160 705 Z" 
+            fill="#080a0c" opacity="0.35" filter="blur(6px)" />
+
+      <!-- Main Viscous Oil Puddle (Dark glossy organic shape) -->
+      <path d="M 175 710 
+               C 170 655, 250 628, 335 628 
+               C 385 628, 415 612, 435 606 
+               C 475 596, 500 626, 512 654 
+               C 532 700, 512 742, 448 760 
+               C 380 778, 298 775, 230 762 
+               C 180 752, 175 732, 175 710 Z" 
+            fill="url(#puddleFill)" stroke="#0d1013" stroke-width="2" />
+
+      <!-- Front Left Puddle Extension / Lobe -->
+      <path d="M 195 700 
+               C 170 710, 172 742, 222 755 
+               C 285 770, 360 768, 415 754 
+               C 355 762, 280 758, 225 744 
+               C 188 734, 185 715, 195 700 Z" 
+            fill="#161a1e" />
+
+      <!-- Glossy Liquid Petroleum Surface Reflection 1 (Broad Curved Highlight) -->
+      <path d="M 235 680 
+               C 205 705, 230 735, 295 740 
+               C 370 745, 435 725, 455 692 
+               C 422 712, 355 724, 295 722 
+               C 245 720, 228 700, 235 680 Z" 
+            fill="url(#puddleSheen)" />
+
+      <!-- Glossy Reflection 2 (Secondary highlight crescent) -->
+      <path d="M 280 650 
+               C 320 642, 375 645, 410 662 
+               C 375 652, 325 652, 280 662 Z" 
+            fill="#414c59" opacity="0.65" />
+
+      <!-- Wet Curved Rim Reflection Streak -->
+      <path d="M 205 725 C 240 746, 295 752, 355 746" 
+            stroke="#505e6e" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.5" />
+    </g>
+
+    <!-- 2. TIPPED OVER OIL BARREL (ON ITS SIDE, SLANTED -20 DEG) -->
+    <g id="tipped-barrel-group" transform="rotate(-20 450 530)">
+      <!-- Barrel Body Cylinder -->
+      <path d="M 370 410 L 565 410 L 565 628 L 370 628 Z" fill="url(#tiltedGrad)" />
+
+      <!-- Longitudinal Shadow and Highlight Panels on cylinder -->
+      <rect x="370" y="410" width="45" height="218" fill="#252b31" />
+      <rect x="415" y="410" width="55" height="218" fill="#3c444e" />
+      <rect x="470" y="410" width="55" height="218" fill="#2b3137" />
+      <rect x="525" y="410" width="40" height="218" fill="#1b1e22" />
+
+      <!-- Circumferential Chime Rib 1 (raised steel ring) -->
+      <g>
+        <rect x="430" y="408" width="14" height="222" rx="3" fill="#1b1f23" />
+        <rect x="431" y="408" width="5" height="222" fill="#5c6776" />
+        <rect x="436" y="408" width="8" height="222" fill="#121518" />
+      </g>
+
+      <!-- Circumferential Chime Rib 2 -->
+      <g>
+        <rect x="500" y="408" width="14" height="222" rx="3" fill="#1b1f23" />
+        <rect x="501" y="408" width="5" height="222" fill="#5c6776" />
+        <rect x="506" y="408" width="8" height="222" fill="#121518" />
+      </g>
+
+      <!-- Barrel Outer Rim (Front opening lip) -->
+      <ellipse cx="370" cy="519" rx="44" ry="109" fill="#323840" stroke="#16191c" stroke-width="3" />
+      <!-- Metallic rim highlight contour -->
+      <ellipse cx="370" cy="519" rx="38" ry="101" fill="#1c2024" stroke="#54606f" stroke-width="3" />
+      <!-- Dark Hollow Barrel Interior -->
+      <ellipse cx="372" cy="519" rx="30" ry="88" fill="#0d0f11" />
+      <!-- Internal depth shadow inside opening -->
+      <path d="M 372 445 C 395 480, 395 560, 372 595 C 358 560, 358 480, 372 445 Z" fill="#16191d" opacity="0.8" />
+    </g>
+
+    <!-- 3. LIQUID CRUDE OIL STREAM (POURING OUT FROM BARREL MOUTH) -->
+    <g id="spill-stream">
+      <path d="M 370 575 
+               C 365 608, 342 638, 318 658 
+               C 300 672, 288 688, 308 708 
+               C 334 728, 386 712, 402 682 
+               C 412 655, 396 618, 390 592 Z" 
+            fill="#0d0f12" />
+      <!-- Stream light reflection -->
+      <path d="M 368 585 C 362 612, 346 638, 328 658 C 318 670, 314 682, 322 694" 
+            stroke="#3b4654" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8" />
+    </g>
+
+    <!-- 4. UPRIGHT BARREL (RIGHT SIDE, STANDING 55-GALLON DRUM) -->
+    <g id="upright-barrel-group" filter="url(#dropShadow)">
+      <!-- Main Cylinder Background -->
+      <path d="M 540 290 
+               L 540 680 
+               C 540 735, 820 735, 820 680 
+               L 820 290 
+               Z" 
+            fill="url(#barrelGrad)" />
+
+      <!-- Vertical Steel Shading Panels (Faceted Cylindrical Reflections) -->
+      <!-- Left side shadow panel -->
+      <path d="M 540 290 L 540 680 C 565 710, 600 720, 610 722 L 610 332 C 600 330, 565 320, 540 290 Z" fill="#24292f" />
+      <!-- Main reflection panel (bright steel sheen) -->
+      <path d="M 610 332 L 610 722 C 630 726, 660 728, 680 728 L 680 338 C 660 338, 630 336, 610 332 Z" fill="#3b434d" />
+      <!-- Mid-right panel -->
+      <path d="M 680 338 L 680 728 C 700 728, 730 726, 750 722 L 750 332 C 730 336, 700 338, 680 338 Z" fill="#2a3036" />
+      <!-- Right shadow panel -->
+      <path d="M 750 332 L 750 722 C 760 720, 795 710, 820 680 L 820 290 C 795 320, 760 330, 750 332 Z" fill="#181b1e" />
+
+      <!-- Cylinder bottom lip -->
+      <path d="M 540 680 C 540 740, 820 740, 820 680 C 820 746, 540 746, 540 680 Z" fill="#111316" />
+
+      <!-- HORIZONTAL CHIME RIBS (RINGS CIRCLING THE DRUM) -->
+      <!-- Upper Rib (around y=420) -->
+      <g id="upper-rib">
+        <path d="M 537 415 C 537 465, 823 465, 823 415 C 823 473, 537 473, 537 415 Z" fill="#14171a" />
+        <path d="M 538 418 C 538 468, 822 468, 822 418" stroke="#55606e" stroke-width="4" fill="none" />
+        <path d="M 537 425 C 537 475, 823 475, 823 425" stroke="#101214" stroke-width="3" fill="none" />
+      </g>
+
+      <!-- Lower Rib (around y=555) -->
+      <g id="lower-rib">
+        <path d="M 537 550 C 537 600, 823 600, 823 550 C 823 608, 537 608, 537 550 Z" fill="#14171a" />
+        <path d="M 538 553 C 538 603, 822 603, 822 553" stroke="#55606e" stroke-width="4" fill="none" />
+        <path d="M 537 560 C 537 610, 823 610, 823 560" stroke="#101214" stroke-width="3" fill="none" />
+      </g>
+
+      <!-- Top Outer Rim / Chime Ring -->
+      <path d="M 540 290 C 540 240, 820 240, 820 290 C 820 340, 540 340, 540 290 Z" fill="url(#rimGrad)" stroke="#171a1d" stroke-width="4" />
+
+      <!-- Top Recessed Lid Surface -->
+      <ellipse cx="680" cy="288" rx="133" ry="46" fill="url(#lidFill)" stroke="#4e5966" stroke-width="2.5" />
+      <!-- Lid inner groove ring -->
+      <ellipse cx="680" cy="288" rx="114" ry="38" fill="none" stroke="#202428" stroke-width="2" />
+
+      <!-- Main Pour Bung Hole Cap on Lid -->
+      <g transform="translate(605, 278)">
+        <ellipse cx="0" cy="0" rx="16" ry="7.5" fill="#15181b" stroke="#5b6775" stroke-width="2" />
+        <ellipse cx="0" cy="0" rx="10" ry="4.5" fill="#0d0f11" />
+      </g>
+
+      <!-- Secondary Air Vent Bung on Lid -->
+      <g transform="translate(740, 272)">
+        <ellipse cx="0" cy="0" rx="9" ry="4.5" fill="#15181b" stroke="#5b6775" stroke-width="1.5" />
+      </g>
+
+      <!-- 5. YELLOW DIAMOND HAZARD PLACARD & OIL DROPLET -->
+      <g id="placard-group" transform="translate(680, 510)">
+        <!-- Placard drop shadow -->
+        <rect x="-38" y="-38" width="76" height="76" rx="9" transform="rotate(45)" fill="#0d1012" opacity="0.6" />
+        <!-- Yellow Diamond Body -->
+        <rect x="-36" y="-36" width="72" height="72" rx="8" transform="rotate(45)" fill="#f5a623" stroke="#d4820a" stroke-width="2.5" />
+        <!-- Inner Border Line -->
+        <rect x="-31" y="-31" width="62" height="62" rx="6" transform="rotate(45)" fill="none" stroke="#faaf38" stroke-width="1.5" />
+
+        <!-- Black Oil Drop Silhouette in Center of Diamond -->
+        <path d="M 0 -22 
+                 C 2 -18, 14 -3, 14 7 
+                 C 14 15, 8 21, 0 21 
+                 C -8 21, -14 15, -14 7 
+                 C -14 -3, -2 -18, 0 -22 Z" 
+              fill="#181c20" />
+        <!-- Droplet Sheen Highlight -->
+        <path d="M -2 1 
+                 C -1 -4, 0 -11, 0 -14 
+                 C -4 -7, -7 0, -6 7 
+                 C -6 10, -4 13, -2 15 
+                 C -4 12, -4 8, -2 1 Z" 
+              fill="#434e5a" opacity="0.65" />
+      </g>
+    </g>
+  </g>
+</svg>

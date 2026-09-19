@@ -1,0 +1,6 @@
+{
+  "name": "eRTMAC-NWIS | Nearby Wells Intelligence System",
+  "description": "AI-powered institutional memory and nearby wells intelligence system for Oil India Limited drilling operations in the Assam-Arakan Basin.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
