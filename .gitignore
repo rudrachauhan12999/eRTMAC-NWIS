@@ -15,3 +15,6 @@ backend/.venv/
 backend/chroma_data/
 backend/document_storage/
 .pytest_cache/
+
+.vercel
+.env*
