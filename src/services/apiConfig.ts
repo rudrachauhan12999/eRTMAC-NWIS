@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// FastAPI backend base URL. Hardcoded for local dev (CORS on the backend
-// already allows http://localhost:3000/5173) — becomes an env-driven value
-// when deployment targets are wired up (see docs/BACKEND_API_CONTRACT.md).
-export const API_BASE_URL = 'http://localhost:8000';
+// FastAPI backend base URL. VITE_API_BASE_URL is set at build time (see
+// vercel.json / the Vercel project's Environment Variables) to the deployed
+// Railway backend URL; falls back to localhost for local dev, where the
+// backend's CORS_ORIGINS already allows http://localhost:3000/5173 (see
+// docs/BACKEND_API_CONTRACT.md).
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 export const TOKEN_STORAGE_KEY = 'ertmac_token';
 

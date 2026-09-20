@@ -1,0 +1,12 @@
+# Keep the Vercel deployment upload to just what the frontend build needs —
+# the backend, its data files, and local venv/DB artifacts don't belong in
+# a static frontend deployment.
+backend/
+data/
+docs/
+scripts/
+.venv/
+chroma_data/
+document_storage/
+*.pdf
+*.pbf
