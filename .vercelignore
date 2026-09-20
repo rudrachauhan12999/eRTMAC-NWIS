@@ -2,7 +2,7 @@
 # the backend, its data files, and local venv/DB artifacts don't belong in
 # a static frontend deployment.
 backend/
-data/
+/data/
 docs/
 scripts/
 .venv/
