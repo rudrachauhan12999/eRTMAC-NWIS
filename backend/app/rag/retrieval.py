@@ -10,6 +10,7 @@ can label evidence honestly — this module never hides or merges that
 distinction away.
 """
 
+import asyncio
 from functools import lru_cache
 
 from rank_bm25 import BM25Okapi
@@ -24,15 +25,22 @@ def _tokenize(text: str) -> list[str]:
     return text.lower().split()
 
 
-async def _bm25_search(db, query: str, top_k: int) -> list[tuple[str, float]]:
-    chunks = await chunks_repo.all_chunks(db)
-    if not chunks:
-        return []
+def _bm25_rank(chunks: list[dict], query: str, top_k: int) -> list[tuple[str, float]]:
     corpus = [_tokenize(c["text"]) for c in chunks]
     bm25 = BM25Okapi(corpus)
     scores = bm25.get_scores(_tokenize(query))
     ranked = sorted(zip((c["chunkId"] for c in chunks), scores), key=lambda x: x[1], reverse=True)
     return ranked[:top_k]
+
+
+async def _bm25_search(db, query: str, top_k: int) -> list[tuple[str, float]]:
+    chunks = await chunks_repo.all_chunks(db)
+    if not chunks:
+        return []
+    # CPU-bound (index build + score); offloaded to a worker thread so it
+    # can't block the event loop — matters most for the embedding/rerank
+    # calls below, but kept consistent here too.
+    return await asyncio.to_thread(_bm25_rank, chunks, query, top_k)
 
 
 @lru_cache
@@ -59,7 +67,13 @@ async def hybrid_search(db, query: str, filters: dict | None = None, top_k: int 
     bm25_scores = {chunk_id: score for chunk_id, score in bm25_hits}
     max_bm25 = max(bm25_scores.values()) if bm25_scores else 1.0
 
-    vector_hits = embeddings.query(query, top_k=RERANK_CANDIDATE_POOL)
+    # embeddings.query() is a synchronous, CPU-bound call (sentence
+    # encoding + a Chroma query) — on first use it also lazily loads the
+    # embedding model, which alone can take several seconds. Run it in a
+    # worker thread so a slow/first RAG call never blocks the single
+    # asyncio event loop (and therefore every other concurrent request —
+    # e.g. GET /api/wells — from being served while this runs).
+    vector_hits = await asyncio.to_thread(embeddings.query, query, RERANK_CANDIDATE_POOL)
     # Chroma cosine distance: smaller is better. Convert to a 0..1 similarity.
     vector_scores = {hit["chunkId"]: max(0.0, 1.0 - hit["distance"]) for hit in vector_hits}
 
@@ -89,12 +103,20 @@ async def hybrid_search(db, query: str, filters: dict | None = None, top_k: int 
     merged.sort(key=lambda c: c["score"], reverse=True)
     candidates = merged[:RERANK_CANDIDATE_POOL]
 
-    if candidates and _rerank_available():
-        reranker = _get_reranker()
-        pairs = [(query, c["text"]) for c in candidates]
-        rerank_scores = reranker.predict(pairs)
-        for chunk, score in zip(candidates, rerank_scores):
-            chunk["score"] = float(score)
-        candidates.sort(key=lambda c: c["score"], reverse=True)
+    # Cross-encoder inference is the most expensive step by far (multiple
+    # seconds even once the model is loaded, on CPU) — also offloaded so it
+    # can't stall unrelated requests while it runs.
+    if candidates and await asyncio.to_thread(_rerank_available):
+        candidates = await asyncio.to_thread(_rerank, query, candidates)
 
     return candidates[:top_k]
+
+
+def _rerank(query: str, candidates: list[dict]) -> list[dict]:
+    reranker = _get_reranker()
+    pairs = [(query, c["text"]) for c in candidates]
+    rerank_scores = reranker.predict(pairs)
+    for chunk, score in zip(candidates, rerank_scores):
+        chunk["score"] = float(score)
+    candidates.sort(key=lambda c: c["score"], reverse=True)
+    return candidates

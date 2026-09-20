@@ -84,10 +84,14 @@ export const InteractiveLeafletMap: React.FC<InteractiveLeafletMapProps> = ({
         zoomControl: false,
       });
 
-      // CartoDB Positron / OpenStreetMap Tile layer with subtle warm tones
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-        maxZoom: 18,
+      // Standard OpenStreetMap raster tiles — no API key required, and
+      // includes real place/district labels (Duliajan, Moran, etc.).
+      // The previous CartoDB "basemaps.cartocdn.com" endpoint now requires
+      // an account/API key for any usage, which is why it was rendering
+      // "API KEY REQUIRED" placeholder tiles instead of an actual map.
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
       }).addTo(map);
 
       L.control.zoom({ position: 'topleft' }).addTo(map);
@@ -264,7 +268,11 @@ export const InteractiveLeafletMap: React.FC<InteractiveLeafletMapProps> = ({
       {/* Main Map & Detail Panel Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-[550px]">
         {/* Map Container */}
-        <div className="lg:col-span-8 rounded-lg border-2 border-[#5c4f42] overflow-hidden shadow-md relative min-h-[450px]">
+        {/* `isolate` contains Leaflet's internal z-index (its control pane
+            defaults to z-index:1000) inside this box's own stacking context,
+            so it can never render above a modal (e.g. the report viewer
+            opened from a marker popup, z-50) mounted elsewhere on the page. */}
+        <div className="lg:col-span-8 rounded-lg border-2 border-[#5c4f42] overflow-hidden shadow-md relative isolate min-h-[450px]">
           <div ref={mapContainerRef} className="w-full h-full min-h-[450px]" />
 
           {wellsLoading && (
